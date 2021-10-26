@@ -1,13 +1,10 @@
 package Algorithm;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Stack;
-
-import GameUtils.Color;
 import GameUtils.State;
+import Helper.ResultUtil;
 
 public class DFS {
 
@@ -17,8 +14,8 @@ public class DFS {
         Stack<State> frontier = new Stack<State>();
         Hashtable<String, Boolean> inFrontier = new Hashtable<>();
         Hashtable<String, Boolean> explored = new Hashtable<>();
-        if(isGoal(initialState)){
-            result(initialState);
+        if(ResultUtil.isGoal(initialState)){
+            ResultUtil.result(initialState, AlgorithmType.DFS);
             return;
         }
         frontier.add(initialState);
@@ -32,57 +29,14 @@ public class DFS {
             //System.out.println(temp.hash());
             for(int i = 0;i<children.size();i++){
                 if(!(inFrontier.containsKey(children.get(i).hash())) && !(explored.containsKey(children.get(i).hash()))) {
-                    if (isGoal(children.get(i))) {
-                        result(children.get(i));
+                    if (ResultUtil.isGoal(children.get(i))) {
+                        ResultUtil.result(children.get(i), AlgorithmType.DFS);
                         return;
                     }
                     frontier.push(children.get(i));
                     inFrontier.put(children.get(i).hash(), true);
                 }
             }
-        }
-    }
-
-
-    private boolean isGoal(State state){
-        for (int i = 0; i < state.getGraph().size(); i++) {
-            if(state.getGraph().getNode(i).getColor() == Color.Red
-                    || state.getGraph().getNode(i).getColor() == Color.Black){
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void result(State state){
-        Stack<State>  states = new Stack<State>();
-        while (true){
-            states.push(state);
-            if(state.getParentState() == null){
-                break;
-            }
-            else {
-                state = state.getParentState();
-            }
-        }
-        try {
-            FileWriter myWriter = new FileWriter("DfsResult.txt");
-            System.out.println("initial state : ");
-            while (!states.empty()){
-                State tempState = states.pop();
-                if(tempState.getSelectedNodeId() != -1) {
-                    System.out.println("selected id : " + tempState.getSelectedNodeId());
-                }
-                tempState.getGraph().print();
-
-                myWriter.write(tempState.getSelectedNodeId()+" ,");
-                myWriter.write(tempState.outputGenerator()+"\n");
-            }
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
         }
     }
 }
