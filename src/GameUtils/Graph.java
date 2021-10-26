@@ -1,3 +1,5 @@
+package GameUtils;
+
 public class Graph {
 
     private Node[] nodes;
