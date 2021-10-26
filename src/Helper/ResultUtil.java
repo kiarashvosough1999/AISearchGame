@@ -2,12 +2,13 @@ package Helper;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Stack;
+import Algorithm.AlgorithmType;
 import GameUtils.Color;
 import GameUtils.State;
 
 public class ResultUtil {
 
-    static boolean isGoal(State state){
+    public static boolean isGoal(State state){
         for (int i = 0; i < state.getGraph().size(); i++) {
             if(state.getGraph().getNode(i).getColor() == Color.Red
                     || state.getGraph().getNode(i).getColor() == Color.Black){
@@ -17,7 +18,18 @@ public class ResultUtil {
         return true;
     }
 
-    static void result(State state){
+    public static void result(State state, AlgorithmType type){
+        if(state == null){
+            try {
+                FileWriter myWriter = new FileWriter("DLS-result(IDS).txt");
+                myWriter.close();
+            }  catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            } finally {
+                return;
+            }
+        }
         Stack<State>  states = new Stack<State>();
         while (true){
             states.push(state);
@@ -29,7 +41,7 @@ public class ResultUtil {
             }
         }
         try {
-            FileWriter myWriter = new FileWriter("BfsResult.txt");
+            FileWriter myWriter = new FileWriter(type.filePath());
             System.out.println("initial state : ");
             while (!states.empty()){
                 State tempState = states.pop();
