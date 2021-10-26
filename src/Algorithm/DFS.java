@@ -1,8 +1,13 @@
+package Algorithm;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Stack;
+
+import GameUtils.Color;
+import GameUtils.State;
 
 public class DFS {
 

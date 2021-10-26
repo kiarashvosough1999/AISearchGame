@@ -1,3 +1,4 @@
+package GameUtils;
 import java.util.LinkedList;
 
 public class Node {
