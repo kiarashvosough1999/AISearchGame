@@ -101,4 +101,8 @@ public class State {
     public  int getSelectedNodeId(){
         return selectedNodeId;
     }
+
+    public Color getNodeColor() {
+        return this.getGraph().getNode(selectedNodeId).getColor();
+    }
 }
