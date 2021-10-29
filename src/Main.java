@@ -1,4 +1,5 @@
 import Algorithm.BFS;
+import Algorithm.DFS;
 import GameUtils.Color;
 import GameUtils.Graph;
 import GameUtils.Node;
