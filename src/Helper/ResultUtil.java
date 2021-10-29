@@ -36,7 +36,7 @@ public class ResultUtil {
     public static void result(State state, AlgorithmType type){
         if(state == null){
             try {
-                FileWriter myWriter = new FileWriter("DLS-result(IDS).txt");
+                FileWriter myWriter = new FileWriter(type.filePath());
                 myWriter.close();
             }  catch (IOException e) {
                 System.out.println("An error occurred.");
