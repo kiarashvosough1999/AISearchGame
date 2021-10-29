@@ -16,7 +16,7 @@ public class DLS {
         Hashtable<String, Integer> inFrontierDepth = new Hashtable<>();
         Hashtable<String, Boolean> explored = new Hashtable<>();
         if(ResultUtil.isGoal(initialState)){
-            ResultUtil.result(initialState, AlgorithmType.DFS);
+            ResultUtil.result(initialState, AlgorithmType.DLS);
             return true;
         }
         frontier.add(initialState);
@@ -36,7 +36,7 @@ public class DLS {
             for (State state : children) {
                 if(!(inFrontier.containsKey(state.hash())) && !(explored.containsKey(state.hash()))) {
                     if (ResultUtil.isGoal(state)) {
-                        ResultUtil.result(state, AlgorithmType.DFS);
+                        ResultUtil.result(state, AlgorithmType.DLS);
                         return true;
                     }
                     frontier.push(state);
@@ -45,7 +45,7 @@ public class DLS {
                 }
             }
         }
-        ResultUtil.result(null, AlgorithmType.DFS);
+        ResultUtil.result(null, AlgorithmType.DLS);
         return false;
     }
 }
