@@ -64,7 +64,7 @@ public class BDS {
                 System.out.println("forward search :");
                 ResultUtil.result(nodeInFront, AlgorithmType.BDS);
                 System.out.println("reverse search");
-                ResultUtil.result(nodeInReverse, AlgorithmType.BDSReverse);
+                ResultUtil.result(nodeInReverse, AlgorithmType.BDS);
                 return;
             }
 
@@ -92,7 +92,7 @@ public class BDS {
                 System.out.println("forward search :");
                 ResultUtil.result(nodeInFront, AlgorithmType.BDS);
                 System.out.println("reverse search");
-                ResultUtil.result(nodeInReverse, AlgorithmType.BDSReverse);
+                ResultUtil.result(nodeInReverse, AlgorithmType.BDS);
                 return;
             }
         }
@@ -107,7 +107,7 @@ public class BDS {
             System.out.println("forward search :");
             ResultUtil.result(nodeInFront, AlgorithmType.BDS);
             System.out.println("reverse search");
-            ResultUtil.result(nodeInReverse, AlgorithmType.BDSReverse);
+            ResultUtil.result(nodeInReverse, AlgorithmType.BDS);
             return;
         }
     }
