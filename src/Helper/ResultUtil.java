@@ -8,6 +8,21 @@ import GameUtils.State;
 
 public class ResultUtil {
 
+    public static int heuristicResult(State state) {
+        Stack<State> states = new Stack<State>();
+        while (true){
+            states.push(state);
+            if(state.getParentState() == null){
+                break;
+            }
+            else {
+                state = state.getParentState();
+            }
+        }
+        states.pop();
+        return states.size();
+    }
+
     public static boolean isGoal(State state){
         for (int i = 0; i < state.getGraph().size(); i++) {
             if(state.getGraph().getNode(i).getColor() == Color.Red
