@@ -11,7 +11,6 @@ public class Graph {
         this.nodesNumber= nodesNumber;
     }
 
-
     public void addNode(Node node){
         if(nodeIndex < nodesNumber) {
             nodes[nodeIndex] = node;
@@ -25,7 +24,7 @@ public class Graph {
     }
 
     public Graph copy(){
-        Graph newGraph= new Graph(nodesNumber);
+        Graph newGraph = new Graph(nodesNumber);
         for (int i = 0; i < nodesNumber; i++) {
             Node copiedNode= nodes[i].copy();
             newGraph.addNode(copiedNode);
@@ -39,6 +38,10 @@ public class Graph {
 
     public int size(){
         return nodeIndex;
+    }
+
+    public Node[] getNodes() {
+        return nodes;
     }
 
     public void print(){
