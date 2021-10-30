@@ -10,6 +10,7 @@ import java.util.Stack;
 
 import GameUtils.Color;
 import GameUtils.State;
+import Helper.ResultUtil;
 
  public class BFS {
 
@@ -40,6 +41,34 @@ import GameUtils.State;
                 }
             }
         }
+    }
+
+
+    public int heuristicSearch(State initialState){
+        Queue<State> frontier = new LinkedList<State>();
+        Hashtable<String, Boolean> inFrontier = new Hashtable<>();
+        Hashtable<String, Boolean> explored = new Hashtable<>();
+        if(isGoal(initialState)){
+            return ResultUtil.heuristicResult(initialState);
+        }
+        frontier.add(initialState);
+        inFrontier.put(initialState.hash(),true);
+        while (!frontier.isEmpty()){
+            State temp = frontier.poll();
+            inFrontier.remove(temp.hash());
+            explored.put(temp.hash(),true);
+            ArrayList<State> children = temp.successor();
+            for(int i = 0;i<children.size();i++){
+                if(!(inFrontier.containsKey(children.get(i).hash())) && !(explored.containsKey(children.get(i).hash()))) {
+                    if (isGoal(children.get(i))) {
+                        return ResultUtil.heuristicResult(children.get(i));
+                    }
+                    frontier.add(children.get(i));
+                    inFrontier.put(children.get(i).hash(), true);
+                }
+            }
+        }
+        return Integer.MAX_VALUE/2;
     }
 
     private static boolean isGoal(State state){
