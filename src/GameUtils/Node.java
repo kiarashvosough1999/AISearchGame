@@ -51,6 +51,10 @@ public class Node {
         return this.color;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public int getId() {
         return this.id;
     }

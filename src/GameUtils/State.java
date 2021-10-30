@@ -7,6 +7,8 @@ public class State {
     private Graph graph;
     private int selectedNodeId;
     private State parentState;
+    private int costUntilNow = 0;
+    private int estimatedCostToGoal = 0;
 
     public State(Graph graph, int selectedNodeId, State parentState){
         this.graph= graph.copy();
@@ -18,35 +20,115 @@ public class State {
         }
     }
 
-    public ArrayList<State> successor(){
+    public ArrayList<State> reverseSuccessor(){
         ArrayList<State> children= new ArrayList<State>();
+
         for (int i = 0; i < this.graph.size(); i++) {
-            int nodeId= this.graph.getNode(i).getId();
+
+            int nodeId = this.graph.getNode(i).getId();
+
             if(nodeId != selectedNodeId){
+
                 State newState = new State(this.graph.copy(), nodeId, this);
+                // adjacent nodes
                 LinkedList<Integer> nodeNeighbors = newState.getGraph().getNode(nodeId).getNeighborsIds();
-                for (int j = 0; j < nodeNeighbors.size(); j++) {
-                    int neighborId=nodeNeighbors.get(j);
-                    newState.getGraph().getNode(neighborId).reverseNodeColor();
-                }
-                if(newState.getGraph().getNode(nodeId).getColor() == Color.Black){
-                    int greenNeighborsCount=0;
-                    int redNeighborsCount=0;
-                    int blackNeighborcount=0;
+
+                // now we proccess current node
+                // if we going reverse we should procces green and red nodes
+                if(newState.getGraph().getNode(nodeId).getColor() != Color.Black){
+
+                    int greenNeighborsCount = 0;
+                    int redNeighborsCount = 0;
+                    int blackNeighborcount = 0;
+
+                    // find the count of nodeColors
                     for (int j = 0; j < nodeNeighbors.size(); j++) {
-                        int neighborId=nodeNeighbors.get(j);
+                        int neighborId = nodeNeighbors.get(j);
                         switch (newState.getGraph().getNode(neighborId).getColor()) {
                             case Green -> greenNeighborsCount++;
                             case Red -> redNeighborsCount++;
                             case Black -> blackNeighborcount++;
                         }
                     }
+                    // number of adajcent Green nodes are more so color of current node become Green
+                    if(greenNeighborsCount > redNeighborsCount && greenNeighborsCount > blackNeighborcount){
+                        newState.getGraph().getNode(nodeId).changeColorTo(Color.Black);
+                    }
+                    // number of adajcent Red nodes are more so color of current node become Red
+                    else if(redNeighborsCount > greenNeighborsCount && redNeighborsCount > blackNeighborcount){
+                        newState.getGraph().getNode(nodeId).changeColorTo(Color.Black);
+                    }
+                    // number of adajcent Black nodes are more so color of current node become Black
+                    // it remains black
+                }
+                else {
+                    // if current node is not black we just reverse its color without any changes to adjacent nodes
+                    newState.getGraph().getNode(nodeId).reverseNodeColor();
+                }
+
+                // red --> green || green --> red
+                // iterate over adjacent node to reverse their color
+                for (int j = 0; j < nodeNeighbors.size(); j++) {
+                    int neighborId = nodeNeighbors.get(j);
+                    // this line of code stay same, in reverse
+                    newState.getGraph().getNode(neighborId).reverseNodeColor();
+                }
+
+                children.add(newState);
+            }
+        }
+        return children;
+    }
+
+    public ArrayList<State> successor(){
+        ArrayList<State> children= new ArrayList<State>();
+
+        for (int i = 0; i < this.graph.size(); i++) {
+
+            int nodeId = this.graph.getNode(i).getId();
+
+            if(nodeId != selectedNodeId){
+
+                State newState = new State(this.graph.copy(), nodeId, this);
+                // adjacent nodes
+                LinkedList<Integer> nodeNeighbors = newState.getGraph().getNode(nodeId).getNeighborsIds();
+
+                // red --> green || green --> red
+                // iterate over adjacent node to reverse their color
+                for (int j = 0; j < nodeNeighbors.size(); j++) {
+                    int neighborId = nodeNeighbors.get(j);
+                    newState.getGraph().getNode(neighborId).reverseNodeColor();
+                }
+
+                // now we proccess current node
+                if(newState.getGraph().getNode(nodeId).getColor() == Color.Black){
+
+                    int greenNeighborsCount = 0;
+                    int redNeighborsCount = 0;
+                    int blackNeighborcount = 0;
+
+                    // find the count of nodeColors
+                    for (int j = 0; j < nodeNeighbors.size(); j++) {
+                        int neighborId = nodeNeighbors.get(j);
+                        switch (newState.getGraph().getNode(neighborId).getColor()) {
+                            case Green -> greenNeighborsCount++;
+                            case Red -> redNeighborsCount++;
+                            case Black -> blackNeighborcount++;
+                        }
+                    }
+                    // number of adajcent Green nodes are more so color of current node become Green
                     if(greenNeighborsCount > redNeighborsCount && greenNeighborsCount > blackNeighborcount){
                         newState.getGraph().getNode(nodeId).changeColorTo(Color.Green);
-                    }else if(redNeighborsCount > greenNeighborsCount && redNeighborsCount > blackNeighborcount){
+                    }
+                    // number of adajcent Red nodes are more so color of current node become Red
+                    else if(redNeighborsCount > greenNeighborsCount && redNeighborsCount > blackNeighborcount){
                         newState.getGraph().getNode(nodeId).changeColorTo(Color.Red);
                     }
-                }else {
+                    // number of adajcent Black nodes are more so color of current node become Black
+                    // it remains black
+                }
+                else {
+                    // if current node is not black we just reverse its color without any changes to adjacent nodes
                     newState.getGraph().getNode(nodeId).reverseNodeColor();
                 }
                 children.add(newState);
@@ -104,5 +186,21 @@ public class State {
 
     public Color getNodeColor() {
         return this.getGraph().getNode(selectedNodeId).getColor();
+    }
+
+    public int getCostUntilNow() {
+        return costUntilNow;
+    }
+
+    public void setCostUntilNow(int costUntilNow) {
+        this.costUntilNow = costUntilNow;
+    }
+
+    public int getEstimatedCostToGoal() {
+        return estimatedCostToGoal;
+    }
+
+    public void setEstimatedCostToGoal(int estimatedCostToGoal) {
+        this.estimatedCostToGoal = estimatedCostToGoal;
     }
 }
