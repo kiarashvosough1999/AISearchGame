@@ -9,6 +9,7 @@ public class State {
     private State parentState;
     private int costUntilNow = 0;
     private int estimatedCostToGoal = 0;
+    private int f = 0;
 
     public State(Graph graph, int selectedNodeId, State parentState){
         this.graph= graph.copy();
@@ -226,5 +227,13 @@ public class State {
 
     public void setEstimatedCostToGoal(int estimatedCostToGoal) {
         this.estimatedCostToGoal = estimatedCostToGoal;
+    }
+    
+    public int getF() {
+        return f;
+    }
+
+    public void setF(int f) {
+        this.f = f;
     }
 }

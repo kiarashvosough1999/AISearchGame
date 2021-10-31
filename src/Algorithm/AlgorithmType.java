@@ -1,7 +1,7 @@
 package Algorithm;
 
 public enum AlgorithmType {
-    BFS, DFS, DLS, UCS, BDS, AStar, IDAStar;
+    BFS, DFS, DLS, UCS, BDS, AStar, IDAStar, RBFS;
 
     public String filePath() {
         switch (this) {
@@ -12,6 +12,7 @@ public enum AlgorithmType {
             case BDS: return "BdsResult.txt";
             case AStar: return "AstarResult.txt";
             case IDAStar: return "IdastarResult.txt";
+            case RBFS: return "RbfsResult.txt";
             default: return "";
         }
     }
