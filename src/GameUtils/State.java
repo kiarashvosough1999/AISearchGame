@@ -33,6 +33,14 @@ public class State {
                 // adjacent nodes
                 LinkedList<Integer> nodeNeighbors = newState.getGraph().getNode(nodeId).getNeighborsIds();
 
+                // red --> green || green --> red
+                // iterate over adjacent node to reverse their color
+                for (int j = 0; j < nodeNeighbors.size(); j++) {
+                    int neighborId = nodeNeighbors.get(j);
+                    // this line of code stay same, in reverse
+                    newState.getGraph().getNode(neighborId).reverseNodeColor();
+                }
+
                 // now we proccess current node
                 // if we going reverse we should procces green and red nodes
                 if(newState.getGraph().getNode(nodeId).getColor() != Color.Black){
@@ -50,13 +58,38 @@ public class State {
                             case Black -> blackNeighborcount++;
                         }
                     }
-                    // number of adajcent Green nodes are more so color of current node become Green
+                    Color currentNodeColor = newState.getGraph().getNode(nodeId).getColor();
+                    // number of adajcent Green nodes are more and current node is green 
+                    // that means current node was
+                    // so color of current node become Green
                     if(greenNeighborsCount > redNeighborsCount && greenNeighborsCount > blackNeighborcount){
-                        newState.getGraph().getNode(nodeId).changeColorTo(Color.Black);
+
+                        if (currentNodeColor == Color.Red){ // mosalas
+                            newState.getGraph().getNode(nodeId).changeColorTo(Color.Green);
+                        }
+
+                        else if (currentNodeColor == Color.Green){ // dayere zabdar
+                            newState.getGraph().getNode(nodeId).changeColorTo(Color.Green);
+                        }
+                        
+                        else {
+                            newState.getGraph().getNode(nodeId).changeColorTo(Color.Black);
+                        }
                     }
                     // number of adajcent Red nodes are more so color of current node become Red
                     else if(redNeighborsCount > greenNeighborsCount && redNeighborsCount > blackNeighborcount){
-                        newState.getGraph().getNode(nodeId).changeColorTo(Color.Black);
+
+                        if (currentNodeColor == Color.Green){ // moraba
+                            newState.getGraph().getNode(nodeId).changeColorTo(Color.Red);
+                        }
+
+                        else if (currentNodeColor == Color.Red){ // setare
+                            newState.getGraph().getNode(nodeId).changeColorTo(Color.Red);
+                        }
+
+                        else {
+                            newState.getGraph().getNode(nodeId).changeColorTo(Color.Red);
+                        }
                     }
                     // number of adajcent Black nodes are more so color of current node become Black
                     // it remains black
@@ -65,15 +98,6 @@ public class State {
                     // if current node is not black we just reverse its color without any changes to adjacent nodes
                     newState.getGraph().getNode(nodeId).reverseNodeColor();
                 }
-
-                // red --> green || green --> red
-                // iterate over adjacent node to reverse their color
-                for (int j = 0; j < nodeNeighbors.size(); j++) {
-                    int neighborId = nodeNeighbors.get(j);
-                    // this line of code stay same, in reverse
-                    newState.getGraph().getNode(neighborId).reverseNodeColor();
-                }
-
                 children.add(newState);
             }
         }
