@@ -44,10 +44,6 @@ public class BDS {
             expandedNodes++;
             for(int i = 0;i<children.size();i++){
                 if(!(inFrontier.containsKey(children.get(i).hash())) && !(explored.containsKey(children.get(i).hash()))) {
-//                    if (children.get(i).hash().equals(finalNode.hash())) {
-//                        result(children.get(i));
-//                        return;
-//                    }
                     frontier.add(children.get(i));
                     inFrontier.put(children.get(i).hash(), true);
                 }
@@ -61,10 +57,8 @@ public class BDS {
                 String intersectionNode = (String) fridgeSharedNodes.toArray()[0];
                 State nodeInFront = searchInList(intersectionNode, (LinkedList<State>) frontier);
                 State nodeInReverse = searchInList(intersectionNode, (LinkedList<State>) reverseFrontier);
-                System.out.println("forward search :");
                 ResultUtil.result(nodeInFront, AlgorithmType.BDS);
-                System.out.println("reverse search");
-                ResultUtil.result(nodeInReverse, AlgorithmType.BDS);
+                ResultUtil.reverseResult(nodeInReverse, AlgorithmType.BDSReverse);
                 return;
             }
 
@@ -72,7 +66,7 @@ public class BDS {
             inReverseFrontier.remove(reverseTemp.hash());
             reverseExplored.put(reverseTemp.hash(), true);
             reverseExploredList.add(reverseTemp);
-            ArrayList<State> reverseChildren = reverseTemp.successor();
+            ArrayList<State> reverseChildren = reverseTemp.reverseSuccessor();
             expandedNodes++;
             for(int i = 0;i<reverseChildren.size();i++){
                 if(!(inReverseFrontier.containsKey(reverseChildren.get(i).hash())) && !(reverseExplored.containsKey(reverseChildren.get(i).hash()))) {
@@ -89,25 +83,20 @@ public class BDS {
                 String intersectionNode = (String) fridgeSharedNodes.toArray()[0];
                 State nodeInFront = searchInList(intersectionNode, (LinkedList<State>) frontier);
                 State nodeInReverse = searchInList(intersectionNode, (LinkedList<State>) reverseFrontier);
-                System.out.println("forward search :");
                 ResultUtil.result(nodeInFront, AlgorithmType.BDS);
-                System.out.println("reverse search");
-                ResultUtil.result(nodeInReverse, AlgorithmType.BDS);
+                ResultUtil.reverseResult(nodeInReverse, AlgorithmType.BDSReverse);
                 return;
             }
         }
 
         Set<String> exploredSharedNodes = explored.keySet();
         exploredSharedNodes.retainAll(reverseExplored.keySet());
-        System.out.println("exploooooored shared nodes : " + exploredSharedNodes);
         if(!exploredSharedNodes.isEmpty()){
             String intersectionNode = (String) exploredSharedNodes.toArray()[exploredSharedNodes.size()-1];
             State nodeInFront = searchInList(intersectionNode, exploredList);
             State nodeInReverse = searchInList(intersectionNode, reverseExploredList);
-            System.out.println("forward search :");
             ResultUtil.result(nodeInFront, AlgorithmType.BDS);
-            System.out.println("reverse search");
-            ResultUtil.result(nodeInReverse, AlgorithmType.BDS);
+            ResultUtil.reverseResult(nodeInReverse, AlgorithmType.BDSReverse);
             return;
         }
     }
