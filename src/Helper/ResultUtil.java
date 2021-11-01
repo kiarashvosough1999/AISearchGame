@@ -75,4 +75,47 @@ public class ResultUtil {
             e.printStackTrace();
         }
     }
+
+    public static void reverseResult(State state, AlgorithmType type){
+        if(state == null){
+            try {
+                FileWriter myWriter = new FileWriter(type.filePath());
+                myWriter.close();
+            }  catch (IOException e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            } finally {
+                return;
+            }
+        }
+        Stack<State>  states = new Stack<State>();
+        while (true){
+            states.push(state);
+            if(state.getParentState() == null){
+                break;
+            }
+            else {
+                state = state.getParentState();
+            }
+        }
+        try {
+            FileWriter myWriter = new FileWriter(type.filePath());
+            System.out.println("final state : ");
+            while (!states.empty()){
+                State tempState = states.pop();
+                if(tempState.getSelectedNodeId() != -1) {
+                    System.out.println("selected id : " + tempState.getSelectedNodeId());
+                }
+                tempState.getGraph().print();
+
+                myWriter.write(tempState.getSelectedNodeId()+" ,");
+                myWriter.write(tempState.outputGenerator()+"\n");
+            }
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
 }
