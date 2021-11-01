@@ -42,7 +42,7 @@ class GraphVisualization:
         plt.show()
 
 
-f = open(os.path.dirname(__file__) + '/../DfsResult.txt', "r")
+f = open(os.path.dirname(__file__) + '/../RbfsResult.txt', "r")
 text = f.read()
 states = text.split("\n")
 states.pop(states.index(""))
