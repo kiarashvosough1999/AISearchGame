@@ -20,3 +20,7 @@ Some of algorithms which were implemented.
 - [x] AStar
 - [x] IDAStar
 - [x] RBFS
+
+## Requirements
+
+java (v.14>) VM is required to run project.
