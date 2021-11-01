@@ -5,3 +5,18 @@ Uniformed And Informed AI Search Algorithm Implementation
 - [Usage](#Usage)
 - [Contributors](#Contributors)
 - [License](#license)
+
+
+## Features
+
+Some of algorithms which were implemented.
+
+- [x] BFS
+- [x] DFS
+- [x] UCS
+- [x] BDS
+- [x] DLS
+- [x] IDS
+- [x] AStar
+- [x] IDAStar
+- [x] RBFS
