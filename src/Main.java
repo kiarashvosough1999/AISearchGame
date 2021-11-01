@@ -1,9 +1,16 @@
+import Algorithm.AStar;
+import Algorithm.BDS;
 import Algorithm.BFS;
 import Algorithm.DFS;
+import Algorithm.IDAStar;
+import Algorithm.IDS;
+import Algorithm.RBFS;
+import Algorithm.UCS;
 import GameUtils.Color;
 import GameUtils.Graph;
 import GameUtils.Node;
 import GameUtils.State;
+import Algorithm.IDS;
 
 public class Main {
 
@@ -80,6 +87,51 @@ public class Main {
 
         State initialState= new State(initialGraph, -1, null);
 
-        BFS.search(initialState);
+
+        // 
+
+        BFS bfs = new BFS();
+        DFS dfs = new DFS();
+        IDS ids = new IDS();
+        UCS ucs = new UCS();
+        BDS bds = new BDS();
+
+        //
+        AStar aStar = new AStar();
+        IDAStar idaStar = new IDAStar();
+        RBFS rbfs = new RBFS();
+
+        // Test DFS
+        // tested
+        // dfs.search(initialState);
+
+
+        // Test BFS
+        // testes
+        // bfs.search(initialState);
+
+        // Test IDS
+        // testet
+        // ids.search(initialState, 30);
+
+        // Test UCS
+        // tested
+        // ucs.search(initialState);
+
+        // Test BDS
+        // tested
+        // bds.search(initialState, bfs.searchAndReturnFinalState(initialState));
+
+        // AStar
+        // tested
+        // aStar.search(initialState);
+
+        // IDAStar
+        // tested
+        // idaStar.search(initialState);
+
+        // RBFS
+        // tested
+        // rbfs.search(initialState);
     }
 }

@@ -8,7 +8,7 @@ public class IDS {
 
     private DLS dls;
 
-    IDS() {
+    public IDS() {
         dls = new DLS();
     }
 

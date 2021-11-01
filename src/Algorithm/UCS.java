@@ -32,6 +32,7 @@ public class UCS {
             ResultUtil.result(initialState, AlgorithmType.UCS);
             return;
         }
+        
         while (!frontier.isEmpty()) {
 
             // check until we find min cost path to one node

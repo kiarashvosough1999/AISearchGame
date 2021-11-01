@@ -10,25 +10,28 @@ public class DLS {
     int expandedNodes = 0;
 
     public boolean search(State initialState, int limit){
-        expandedNodes = 0;
+
         Stack<State> frontier = new Stack<>();
         Hashtable<String, Boolean> inFrontier = new Hashtable<>();
         Hashtable<String, Integer> inFrontierDepth = new Hashtable<>();
         Hashtable<String, Boolean> explored = new Hashtable<>();
+
         if(ResultUtil.isGoal(initialState)){
             ResultUtil.result(initialState, AlgorithmType.DLS);
             return true;
         }
+
         frontier.add(initialState);
         inFrontier.put(initialState.hash(),true);
         inFrontierDepth.put(initialState.hash(), 0);
+
         while (!frontier.isEmpty()){
             State temp = frontier.pop();
             inFrontier.remove(temp.hash());
             int depth = inFrontierDepth.get(temp.hash());
             inFrontierDepth.remove(temp.hash());
             explored.put(temp.hash(),true);
-            if(depth>=limit){
+            if(depth >= limit){
                 continue;
             }
             ArrayList<State> children = temp.successor();
@@ -40,7 +43,7 @@ public class DLS {
                         return true;
                     }
                     frontier.push(state);
-                    inFrontierDepth.put(state.hash(), depth+1);
+                    inFrontierDepth.put(state.hash(), depth + 1);
                     inFrontier.put(state.hash(), true);
                 }
             }
