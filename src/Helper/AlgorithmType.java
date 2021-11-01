@@ -1,4 +1,4 @@
-package Algorithm;
+package Helper;
 
 public enum AlgorithmType {
     BFS, DFS, DLS, UCS, BDS, AStar, IDAStar, RBFS, BDSReverse;

@@ -1,16 +1,22 @@
-package Algorithm;
+package Algorithm.UnInformed;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Queue;
-
+import Algorithm.BasicAlgorithm;
 import GameUtils.Color;
+import GameUtils.SimpleSearch;
 import GameUtils.State;
+import Helper.AlgorithmType;
 import Helper.ResultUtil;
 
-public class UCS {
+public class UCS extends BasicAlgorithm implements SimpleSearch {
+
+    public UCS() {
+        super();
+    }
 
     public void search(State initialState) {
 
@@ -38,7 +44,7 @@ public class UCS {
             // check until we find min cost path to one node
             while (true) {
                 temp = frontier.poll();
-                if (isminCost(cost, temp)) {
+                if (isMinCost(cost, temp)) {
                     break;
                 } else {
                     frontier.add(temp);
@@ -52,7 +58,7 @@ public class UCS {
                 ResultUtil.result(temp, AlgorithmType.UCS);
                 return;
             }
-
+            numberOfExpandedNodes++;
             ArrayList<State> children = temp.successor();
 
             for (State state : children) {
@@ -78,7 +84,7 @@ public class UCS {
         return;
     }
 
-    private boolean isminCost(Hashtable<String, Integer> costs,State state){
+    private boolean isMinCost(Hashtable<String, Integer> costs,State state){
         Integer cost = Integer.MAX_VALUE;
         try {
             cost = costs.get(state.hash()).intValue();

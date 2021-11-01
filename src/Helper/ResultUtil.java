@@ -2,8 +2,11 @@ package Helper;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Stack;
-import Algorithm.AlgorithmType;
+
+import Algorithm.UnInformed.BFS;
 import GameUtils.Color;
+import GameUtils.Graph;
+import GameUtils.Node;
 import GameUtils.State;
 
 public class ResultUtil {
@@ -117,5 +120,27 @@ public class ResultUtil {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+    }
+
+    static public Graph relaxGraph(Graph graph){
+        Graph newGame = graph.copy();
+
+        for (Node node : newGame.getNodes()) {
+            if (node.getColor() == Color.Black) {
+                node.setColor(Color.Green);
+            }
+        }
+        return newGame;
+    }
+
+    static public int heuristic(State state){
+        // first we relax graph
+        Graph relaxedGraph = relaxGraph(state.getGraph());
+
+        State temp = new State(relaxedGraph, state.getSelectedNodeId(), null);
+
+        BFS bfs = new BFS();
+        // we find path to goal with relaxed map and bfs algorithm
+        return bfs.heuristicSearch(temp);
     }
 }

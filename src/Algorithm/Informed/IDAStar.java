@@ -1,21 +1,29 @@
-package Algorithm;
+package Algorithm.Informed;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.PriorityQueue;
 import java.util.Stack;
-import GameUtils.Color;
+import Algorithm.BasicAlgorithm;
+import Algorithm.UnInformed.BFS;
 import GameUtils.Graph;
-import GameUtils.Node;
+import GameUtils.SimpleSearch;
 import GameUtils.State;
 import GameUtils.StateComparator;
+import Helper.AlgorithmType;
 import Helper.ResultUtil;
 
-public class IDAStar {
-
-    private int expandedNodes = 0;
+public class IDAStar extends BasicAlgorithm implements SimpleSearch {
 
     private int cutoff;
+
+    private BFS bfs;
+
+    public IDAStar() {
+        super();
+        this.cutoff = 0;
+        this.bfs = new BFS();
+    }
 
     public void search(State intialNode){
 
@@ -27,11 +35,9 @@ public class IDAStar {
             ResultUtil.result(intialNode, AlgorithmType.IDAStar);
             return;
         }
-
-        BFS bfs = new BFS();
         
         Graph initialMap = intialNode.getGraph().copy();
-        Graph relaxedMap = relaxGraph(initialMap);
+        Graph relaxedMap = ResultUtil.relaxGraph(initialMap);
 
         intialNode.setCostUntilNow(0);
 
@@ -45,54 +51,51 @@ public class IDAStar {
         inFrontier.put(intialNode.hash(),true);
 
         while (!frontier.isEmpty()){
+
             State temp = frontier.poll();
+
             frontier.clear();
             inFrontier.clear();
             explored.clear();
+
             cutoff = temp.getCostUntilNow() + temp.getEstimatedCostToGoal();
+
             Stack<State> additionalFrontier = new Stack<>();
 
             additionalFrontier.push(intialNode);
+
             while (!additionalFrontier.isEmpty()){
+
                 State node = additionalFrontier.pop();
                 inFrontier.remove(node.hash());
                 explored.put(temp.hash(),true);
+
                 if(node.getCostUntilNow() + node.getEstimatedCostToGoal() > cutoff){
                     frontier.add(node);
                     continue;
                 }
                 ArrayList<State> children = node.successor();
-                expandedNodes++;
 
-                for(int i = 0;i<children.size();i++){
-                    if(!(inFrontier.containsKey(children.get(i).hash())) && !(explored.containsKey(children.get(i).hash()))) {
-                        if (ResultUtil.isGoal(children.get(i))) {
-                            ResultUtil.result(children.get(i), AlgorithmType.IDAStar);
+                numberOfExpandedNodes++;
+
+                for (State state : children) {
+                    if(!(inFrontier.containsKey(state.hash())) && !(explored.containsKey(state.hash()))) {
+                        if (ResultUtil.isGoal(state)) {
+                            ResultUtil.result(state, AlgorithmType.IDAStar);
                             return;
                         }
-                        children.get(i).setCostUntilNow(children.get(i).getParentState().getCostUntilNow() + 1);
+                        state.setCostUntilNow(state.getParentState().getCostUntilNow() + 1);
 
-                        tempp = new State(relaxedMap.copy(), children.get(i).getSelectedNodeId(), null);
+                        tempp = new State(relaxedMap.copy(), state.getSelectedNodeId(), null);
 
-                        children.get(i).setEstimatedCostToGoal(bfs.heuristicSearch(tempp));
+                        state.setEstimatedCostToGoal(bfs.heuristicSearch(tempp));
 
-                        additionalFrontier.push(children.get(i));
+                        additionalFrontier.push(state);
 
-                        inFrontier.put(children.get(i).hash(), true);
+                        inFrontier.put(state.hash(), true);
                     }
                 }
             }
         }
-    }
-
-    public Graph relaxGraph(Graph graph){
-        Graph newGame = graph.copy();
-
-        for (Node node : newGame.getNodes()) {
-            if (node.getColor() == Color.Black) {
-                node.setColor(Color.Green);
-            }
-        }
-        return newGame;
     }
 }

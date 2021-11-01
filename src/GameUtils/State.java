@@ -5,11 +5,17 @@ import java.util.LinkedList;
 public class State {
 
     private Graph graph;
+
     private int selectedNodeId;
+
     private State parentState;
+
     private int costUntilNow = 0;
+
     private int estimatedCostToGoal = 0;
-    private int f = 0;
+
+    //keep track of the best alternative path available from any ancestor of the current node
+    private int fLimit = 0;
 
     public State(Graph graph, int selectedNodeId, State parentState){
         this.graph= graph.copy();
@@ -234,11 +240,11 @@ public class State {
         this.estimatedCostToGoal = estimatedCostToGoal;
     }
     
-    public int getF() {
-        return f;
+    public int getFLimit() {
+        return fLimit;
     }
 
-    public void setF(int f) {
-        this.f = f;
+    public void setFLimit(int f) {
+        this.fLimit = f;
     }
 }
