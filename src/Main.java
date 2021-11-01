@@ -130,8 +130,8 @@ public class Main {
 
         // IDAStar
         // tested
-        search = new IDAStar();
-        search.search(initialState);
+        // search = new IDAStar();
+        // search.search(initialState);
 
         // RBFS
         // tested
