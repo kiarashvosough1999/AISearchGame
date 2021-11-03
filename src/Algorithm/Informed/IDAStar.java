@@ -72,8 +72,8 @@ public class IDAStar extends BasicAlgorithm implements SimpleSearch {
 
                 if(node.getCostUntilNow() + node.getEstimatedCostToGoal() > cutoff){
                     frontier.add(node);
-                    continue;
                 }
+                
                 ArrayList<State> children = node.successor();
 
                 numberOfExpandedNodes++;

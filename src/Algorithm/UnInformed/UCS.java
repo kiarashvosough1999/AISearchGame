@@ -44,7 +44,7 @@ public class UCS extends BasicAlgorithm implements SimpleSearch {
             // check until we find min cost path to one node
             while (true) {
                 temp = frontier.poll();
-                if (isMinCost(cost, temp)) {
+                if (ResultUtil.isMinCost(cost, temp)) {
                     break;
                 } else {
                     frontier.add(temp);
@@ -82,22 +82,5 @@ public class UCS extends BasicAlgorithm implements SimpleSearch {
             cost.remove(temp.hash());
         }
         return;
-    }
-
-    private boolean isMinCost(Hashtable<String, Integer> costs,State state){
-        Integer cost = Integer.MAX_VALUE;
-        try {
-            cost = costs.get(state.hash()).intValue();
-        }
-        catch (Exception e){
-            return false;
-        }
-        Enumeration<String> enumeration = costs.keys();
-        while(enumeration.hasMoreElements()){
-            if (cost > costs.get(enumeration.nextElement()).intValue()){
-                return false;
-            }
-        }
-        return true;
     }
 }

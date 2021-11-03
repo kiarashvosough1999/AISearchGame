@@ -1,4 +1,5 @@
 import Algorithm.Informed.AStar;
+import Algorithm.Informed.GBFS;
 import Algorithm.Informed.IDAStar;
 import Algorithm.Informed.RBFS;
 import Algorithm.UnInformed.BDS;
@@ -12,6 +13,7 @@ import GameUtils.Graph;
 import GameUtils.Node;
 import GameUtils.SimpleSearch;
 import GameUtils.State;
+import Helper.ResultUtil;
 
 public class Main {
 
@@ -48,7 +50,7 @@ public class Main {
         initialGraph.addLinkBetween(initialGraph.getNode(5), initialGraph.getNode(6));
 
         //-----------------------------------------------> test3 :
-    //    Graph initialGraph= new Graph(15);
+       Graph initialGraph= new Graph(15);
     //    initialGraph.addNode(new Node(0, Color.Red));
     //    initialGraph.addNode(new Node(1, Color.Black));
     //    initialGraph.addNode(new Node(2, Color.Black));
@@ -138,7 +140,11 @@ public class Main {
         // search = new RBFS();
         // search.search(initialState);
 
-        int getNumberOfExpandedNodes = search != null ? search.getNumberOfExpandedNodes() : bds.getNumberOfExpandedNodes();
-        System.out.printf("number of nodes expanded %d", getNumberOfExpandedNodes);
+        // GBFS
+        // tested
+        // search = new GBFS();
+        // search.search(initialState);
+
+        ResultUtil.nodeExpansionResultgenerator(search != null ? search : bds);
     }
 }

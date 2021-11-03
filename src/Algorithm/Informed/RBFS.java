@@ -16,10 +16,9 @@ public class RBFS extends BasicAlgorithm implements SimpleSearch {
     }
 
     public void search(State intialNode){
+
         intialNode.setCostUntilNow(0);
-
         intialNode.setEstimatedCostToGoal(ResultUtil.heuristic(intialNode));
-
         intialNode.setFLimit(intialNode.getCostUntilNow() + intialNode.getEstimatedCostToGoal());
 
         rbfs(intialNode, Integer.MAX_VALUE/2);
@@ -31,6 +30,7 @@ public class RBFS extends BasicAlgorithm implements SimpleSearch {
             ResultUtil.result(node, AlgorithmType.RBFS);
             System.exit(0);
         }
+        
         PriorityQueue<State> successors = new PriorityQueue<>(new StateComparator());
 
         ArrayList<State> children = node.successor();
@@ -38,7 +38,7 @@ public class RBFS extends BasicAlgorithm implements SimpleSearch {
         numberOfExpandedNodes++;
 
         if(children.isEmpty())
-            return Integer.MAX_VALUE/2;
+            return Integer.MAX_VALUE;
 
         for(State child : children){
             child.setCostUntilNow(child.getParentState().getCostUntilNow() + 1);
@@ -55,9 +55,10 @@ public class RBFS extends BasicAlgorithm implements SimpleSearch {
 
             if(ResultUtil.isGoal(best)){
                 ResultUtil.result(best, AlgorithmType.RBFS);
-
+                ResultUtil.nodeExpansionResultgenerator(this);
                 System.exit(0);
             }
+
             if(best.getFLimit() > fLimit)
                 return best.getFLimit();
 

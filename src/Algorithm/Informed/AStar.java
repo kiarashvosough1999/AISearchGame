@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.PriorityQueue;
 import Algorithm.BasicAlgorithm;
+import Algorithm.UnInformed.BFS;
+import GameUtils.Graph;
 import GameUtils.SimpleSearch;
 import GameUtils.State;
 import GameUtils.StateComparator;
@@ -27,9 +29,15 @@ public class AStar extends BasicAlgorithm implements SimpleSearch {
             return;
         }
 
-        // set initial node cost and estimated steps to goal
+        BFS bfs = new BFS();
+
+        Graph relaxedMap = ResultUtil.relaxGraph(intialNode.getGraph().copy());
+
+        State tempp = new State(relaxedMap.copy(), intialNode.getSelectedNodeId(), null);
+
         intialNode.setCostUntilNow(0);
-        intialNode.setEstimatedCostToGoal(ResultUtil.heuristic(intialNode));
+
+        intialNode.setEstimatedCostToGoal(bfs.heuristicSearch(tempp));
 
         frontier.add(intialNode);
         inFrontier.put(intialNode.hash(),true);
@@ -38,7 +46,6 @@ public class AStar extends BasicAlgorithm implements SimpleSearch {
 
             State temp = frontier.poll();
 
-            // remove node from fringe and store it in explored
             inFrontier.remove(temp.hash());
             explored.put(temp.hash(),true);
 
@@ -48,16 +55,16 @@ public class AStar extends BasicAlgorithm implements SimpleSearch {
 
             for (State state : children) {
                 if(!(inFrontier.containsKey(state.hash())) && !(explored.containsKey(state.hash()))) {
-
-                    if(ResultUtil.isGoal(state)){
+                    if (ResultUtil.isGoal(state)) {
                         ResultUtil.result(state, AlgorithmType.AStar);
                         return;
                     }
-                    
-                    state.setCostUntilNow(state.getParentState().getCostUntilNow() + 1);
-                    // estimate cost to goal from generated state
-                    state.setEstimatedCostToGoal(ResultUtil.heuristic(state));;
-                    
+                    state.setCostUntilNow(state.getCostUntilNow() + 1);
+
+                    tempp = new State(relaxedMap.copy(), state.getSelectedNodeId(), null);
+
+                    state.setEstimatedCostToGoal(bfs.heuristicSearch(tempp));
+
                     frontier.add(state);
                     inFrontier.put(state.hash(), true);
                 }

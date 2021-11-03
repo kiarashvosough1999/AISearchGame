@@ -1,9 +1,12 @@
 package Helper;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Stack;
 
 import Algorithm.UnInformed.BFS;
+import GameUtils.BasicSearchRequirement;
 import GameUtils.Color;
 import GameUtils.Graph;
 import GameUtils.Node;
@@ -11,6 +14,9 @@ import GameUtils.State;
 
 public class ResultUtil {
 
+    public static void nodeExpansionResultgenerator(BasicSearchRequirement search) {
+        System.out.printf("number of nodes expanded %d", search.getNumberOfExpandedNodes());
+    }
     public static int heuristicResult(State state) {
         Stack<State> states = new Stack<State>();
         while (true){
@@ -142,5 +148,22 @@ public class ResultUtil {
         BFS bfs = new BFS();
         // we find path to goal with relaxed map and bfs algorithm
         return bfs.heuristicSearch(temp);
+    }
+
+    static public boolean isMinCost(Hashtable<String, Integer> costs,State state){
+        Integer cost = Integer.MAX_VALUE;
+        try {
+            cost = costs.get(state.hash()).intValue();
+        }
+        catch (Exception e){
+            return false;
+        }
+        Enumeration<String> enumeration = costs.keys();
+        while(enumeration.hasMoreElements()){
+            if (cost > costs.get(enumeration.nextElement()).intValue()){
+                return false;
+            }
+        }
+        return true;
     }
 }
