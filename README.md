@@ -20,6 +20,7 @@ Some of algorithms which were implemented.
 - [x] AStar
 - [x] IDAStar
 - [x] RBFS
+- [x] GBFS
 
 ## Requirements
 
