@@ -35,15 +35,10 @@ public class IDAStar extends BasicAlgorithm implements SimpleSearch {
             ResultUtil.result(intialNode, AlgorithmType.IDAStar);
             return;
         }
-        
-        Graph initialMap = intialNode.getGraph().copy();
-        Graph relaxedMap = ResultUtil.relaxGraph(initialMap);
 
         intialNode.setCostUntilNow(0);
 
-        State tempp = new State(relaxedMap, intialNode.getSelectedNodeId(), null);
-
-        intialNode.setEstimatedCostToGoal(bfs.heuristicSearch(tempp));
+        intialNode.setEstimatedCostToGoal(ResultUtil.heuristic(intialNode));
 
         cutoff = intialNode.getCostUntilNow() + intialNode.getEstimatedCostToGoal();
 
@@ -86,9 +81,7 @@ public class IDAStar extends BasicAlgorithm implements SimpleSearch {
                         }
                         state.setCostUntilNow(state.getParentState().getCostUntilNow() + 1);
 
-                        tempp = new State(relaxedMap.copy(), state.getSelectedNodeId(), null);
-
-                        state.setEstimatedCostToGoal(bfs.heuristicSearch(tempp));
+                        state.setEstimatedCostToGoal(ResultUtil.heuristic(state));
 
                         additionalFrontier.push(state);
 

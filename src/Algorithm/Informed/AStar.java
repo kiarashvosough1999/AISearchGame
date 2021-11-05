@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.PriorityQueue;
 import Algorithm.BasicAlgorithm;
-import Algorithm.UnInformed.BFS;
-import GameUtils.Graph;
 import GameUtils.SimpleSearch;
 import GameUtils.State;
 import GameUtils.StateComparator;
@@ -29,15 +27,9 @@ public class AStar extends BasicAlgorithm implements SimpleSearch {
             return;
         }
 
-        BFS bfs = new BFS();
-
-        Graph relaxedMap = ResultUtil.relaxGraph(intialNode.getGraph().copy());
-
-        State tempp = new State(relaxedMap.copy(), intialNode.getSelectedNodeId(), null);
-
         intialNode.setCostUntilNow(0);
 
-        intialNode.setEstimatedCostToGoal(bfs.heuristicSearch(tempp));
+        intialNode.setEstimatedCostToGoal(ResultUtil.heuristic(intialNode));
 
         frontier.add(intialNode);
         inFrontier.put(intialNode.hash(),true);
@@ -61,9 +53,7 @@ public class AStar extends BasicAlgorithm implements SimpleSearch {
                     }
                     state.setCostUntilNow(state.getCostUntilNow() + 1);
 
-                    tempp = new State(relaxedMap.copy(), state.getSelectedNodeId(), null);
-
-                    state.setEstimatedCostToGoal(bfs.heuristicSearch(tempp));
+                    state.setEstimatedCostToGoal(ResultUtil.heuristic(state));
 
                     frontier.add(state);
                     inFrontier.put(state.hash(), true);
