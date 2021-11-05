@@ -50,7 +50,7 @@ public class Main {
         initialGraph.addLinkBetween(initialGraph.getNode(5), initialGraph.getNode(6));
 
         //-----------------------------------------------> test3 :
-       Graph initialGraph= new Graph(15);
+    //    Graph initialGraph= new Graph(15);
     //    initialGraph.addNode(new Node(0, Color.Red));
     //    initialGraph.addNode(new Node(1, Color.Black));
     //    initialGraph.addNode(new Node(2, Color.Black));
