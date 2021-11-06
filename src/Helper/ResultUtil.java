@@ -22,6 +22,7 @@
 package Helper;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Stack;
@@ -106,28 +107,28 @@ public class ResultUtil {
         }
     }
 
-    public static void reverseResult(State state, AlgorithmType type){
-        if(state == null){
+    public static void reverseResult(State frontNode, State backNode, AlgorithmType type){
+        if( frontNode == null && backNode == null ){
             try {
                 FileWriter myWriter = new FileWriter(type.filePath());
                 myWriter.close();
             }  catch (IOException e) {
                 System.out.println("An error occurred.");
                 e.printStackTrace();
-            } finally {
-                return;
             }
         }
+
         Stack<State>  states = new Stack<State>();
         while (true){
-            states.push(state);
-            if(state.getParentState() == null){
+            states.push(frontNode);
+            if(frontNode.getParentState() == null){
                 break;
             }
             else {
-                state = state.getParentState();
+                frontNode = frontNode.getParentState();
             }
         }
+
         try {
             FileWriter myWriter = new FileWriter(type.filePath());
             System.out.println("final state : ");
@@ -140,6 +141,24 @@ public class ResultUtil {
 
                 myWriter.write(tempState.getSelectedNodeId()+" ,");
                 myWriter.write(tempState.outputGenerator()+"\n");
+            }
+            // in order not to consider intresection node we get its parent
+            backNode = backNode.getParentState();
+
+            while (true){
+                if(backNode.getSelectedNodeId() != -1) {
+                    System.out.println("selected id : " + backNode.getSelectedNodeId());
+                }
+                backNode.getGraph().print();
+
+                myWriter.write(backNode.getSelectedNodeId()+" ,");
+                myWriter.write(backNode.outputGenerator()+"\n");
+                if(backNode.getParentState() == null){
+                    break;
+                }
+                else {
+                    backNode = backNode.getParentState();
+                }
             }
             myWriter.close();
             System.out.println("Successfully wrote to the file.");

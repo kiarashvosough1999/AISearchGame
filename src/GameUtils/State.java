@@ -220,6 +220,12 @@ public class State {
         return selectedNodeId;
     }
 
+    
+    public void setParentState(State parentState) {
+        this.parentState = parentState;
+    }
+
+    
     public Color getNodeColor() {
         return this.getGraph().getNode(selectedNodeId).getColor();
     }

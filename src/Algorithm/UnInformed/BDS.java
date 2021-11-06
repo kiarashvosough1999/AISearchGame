@@ -40,7 +40,7 @@ public class BDS extends BasicAlgorithm implements BidirectionalSearch {
     }
 
     public void search(State initialState, State finalState){
-
+        finalState.setParentState(null);
         // forward
         Queue<State> frontier = new LinkedList<State>();
         Hashtable<String, Boolean> inFrontier = new Hashtable<>();
@@ -96,8 +96,7 @@ public class BDS extends BasicAlgorithm implements BidirectionalSearch {
                 String intersectionNode = (String) fringeSharedNodes.toArray()[0];
                 State nodeFromFront = findIntersectedNode(intersectionNode, (LinkedList<State>) frontier);
                 State nodeFromReverse = findIntersectedNode(intersectionNode, (LinkedList<State>) reverseFrontier);
-                ResultUtil.result(nodeFromFront, AlgorithmType.BDS);
-                ResultUtil.reverseResult(nodeFromReverse, AlgorithmType.BDSReverse);
+                ResultUtil.reverseResult(nodeFromFront, nodeFromReverse, AlgorithmType.BDS);
                 return;
             }
 
@@ -131,8 +130,7 @@ public class BDS extends BasicAlgorithm implements BidirectionalSearch {
                 String intersectionNode = (String) fringeSharedNodes.toArray()[0];
                 State nodeFromFront = findIntersectedNode(intersectionNode, (LinkedList<State>) frontier);
                 State nodeFromReverse = findIntersectedNode(intersectionNode, (LinkedList<State>) reverseFrontier);
-                ResultUtil.result(nodeFromFront, AlgorithmType.BDS);
-                ResultUtil.reverseResult(nodeFromReverse, AlgorithmType.BDSReverse);
+                ResultUtil.reverseResult(nodeFromFront, nodeFromReverse, AlgorithmType.BDS);
                 return;
             }
         }
@@ -143,8 +141,7 @@ public class BDS extends BasicAlgorithm implements BidirectionalSearch {
             String intersectionNode = (String) exploredSharedNodes.toArray()[exploredSharedNodes.size()-1];
             State nodeFromFront = findIntersectedNode(intersectionNode, exploredList);
             State nodeFromReverse = findIntersectedNode(intersectionNode, reverseExploredList);
-            ResultUtil.result(nodeFromFront, AlgorithmType.BDS);
-            ResultUtil.reverseResult(nodeFromReverse, AlgorithmType.BDSReverse);
+            ResultUtil.reverseResult(nodeFromFront, nodeFromReverse, AlgorithmType.BDS);
             return;
         }
     }
