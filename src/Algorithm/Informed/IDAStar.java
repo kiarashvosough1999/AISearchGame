@@ -26,7 +26,6 @@ import java.util.Hashtable;
 import java.util.PriorityQueue;
 import java.util.Stack;
 import Algorithm.BasicAlgorithm;
-import Algorithm.UnInformed.BFS;
 import GameUtils.SimpleSearch;
 import GameUtils.State;
 import GameUtils.StateComparator;
@@ -35,14 +34,11 @@ import Helper.ResultUtil;
 
 public class IDAStar extends BasicAlgorithm implements SimpleSearch {
 
-    private int cutoff;
-
-    private BFS bfs;
+    private int cutOff;
 
     public IDAStar() {
         super();
-        this.cutoff = 0;
-        this.bfs = new BFS();
+        this.cutOff = 0;
     }
 
     public void search(State intialNode){
@@ -60,7 +56,7 @@ public class IDAStar extends BasicAlgorithm implements SimpleSearch {
 
         intialNode.setEstimatedCostToGoal(ResultUtil.heuristic(intialNode));
 
-        cutoff = intialNode.getCostUntilNow() + intialNode.getEstimatedCostToGoal();
+        cutOff = intialNode.getCostUntilNow() + intialNode.getEstimatedCostToGoal();
 
         frontier.add(intialNode);
         inFrontier.put(intialNode.hash(),true);
@@ -73,7 +69,7 @@ public class IDAStar extends BasicAlgorithm implements SimpleSearch {
             inFrontier.clear();
             explored.clear();
 
-            cutoff = temp.getCostUntilNow() + temp.getEstimatedCostToGoal();
+            cutOff = temp.getCostUntilNow() + temp.getEstimatedCostToGoal();
 
             Stack<State> additionalFrontier = new Stack<>();
 
@@ -85,7 +81,7 @@ public class IDAStar extends BasicAlgorithm implements SimpleSearch {
                 inFrontier.remove(node.hash());
                 explored.put(temp.hash(),true);
 
-                if(node.getCostUntilNow() + node.getEstimatedCostToGoal() > cutoff){
+                if(node.getCostUntilNow() + node.getEstimatedCostToGoal() > cutOff){
                     frontier.add(node);
                 }
                 

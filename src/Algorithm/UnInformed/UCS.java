@@ -52,12 +52,12 @@ public class UCS extends BasicAlgorithm implements SimpleSearch {
 
         cost.put(initialState.hash(), 0);
 
-        State temp = initialState;
-
         if(ResultUtil.isGoal(initialState)){
             ResultUtil.result(initialState, AlgorithmType.UCS);
             return;
         }
+        
+        State temp = initialState;
         
         while (!frontier.isEmpty()) {
 
@@ -78,7 +78,9 @@ public class UCS extends BasicAlgorithm implements SimpleSearch {
                 ResultUtil.result(temp, AlgorithmType.UCS);
                 return;
             }
+
             numberOfExpandedNodes++;
+
             ArrayList<State> children = temp.successor();
 
             for (State state : children) {

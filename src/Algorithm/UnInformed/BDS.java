@@ -86,14 +86,14 @@ public class BDS extends BasicAlgorithm implements BidirectionalSearch {
             }
 
             // Finding intersection if reached
-            Set<String> fringeSharedNodes = new HashSet<String>();
+            Set<String> fringeInCommonNodes = new HashSet<String>();
             // add all node from forward visted list
-            fringeSharedNodes.addAll(inFrontier.keySet());
+            fringeInCommonNodes.addAll(inFrontier.keySet());
             // remove all inserted ellemnt execpt those which inReverseFrontier contain them
-            fringeSharedNodes.retainAll(inReverseFrontier.keySet());
+            fringeInCommonNodes.retainAll(inReverseFrontier.keySet());
 
-            if(!fringeSharedNodes.isEmpty()){
-                String intersectionNode = (String) fringeSharedNodes.toArray()[0];
+            if(!fringeInCommonNodes.isEmpty()){
+                String intersectionNode = (String) fringeInCommonNodes.toArray()[0];
                 State nodeFromFront = findIntersectedNode(intersectionNode, (LinkedList<State>) frontier);
                 State nodeFromReverse = findIntersectedNode(intersectionNode, (LinkedList<State>) reverseFrontier);
                 ResultUtil.reverseResult(nodeFromFront, nodeFromReverse, AlgorithmType.BDS);
@@ -121,13 +121,13 @@ public class BDS extends BasicAlgorithm implements BidirectionalSearch {
 
             // we should check again for intesection
             // because it might be genereated from backward
-            fringeSharedNodes = new HashSet<String>();
+            fringeInCommonNodes = new HashSet<String>();
 
-            fringeSharedNodes.addAll(inFrontier.keySet());
-            fringeSharedNodes.retainAll(inReverseFrontier.keySet());
+            fringeInCommonNodes.addAll(inFrontier.keySet());
+            fringeInCommonNodes.retainAll(inReverseFrontier.keySet());
 
-            if(!fringeSharedNodes.isEmpty()){
-                String intersectionNode = (String) fringeSharedNodes.toArray()[0];
+            if(!fringeInCommonNodes.isEmpty()){
+                String intersectionNode = (String) fringeInCommonNodes.toArray()[0];
                 State nodeFromFront = findIntersectedNode(intersectionNode, (LinkedList<State>) frontier);
                 State nodeFromReverse = findIntersectedNode(intersectionNode, (LinkedList<State>) reverseFrontier);
                 ResultUtil.reverseResult(nodeFromFront, nodeFromReverse, AlgorithmType.BDS);
@@ -135,10 +135,10 @@ public class BDS extends BasicAlgorithm implements BidirectionalSearch {
             }
         }
 
-        Set<String> exploredSharedNodes = explored.keySet();
-        exploredSharedNodes.retainAll(reverseExplored.keySet());
-        if(!exploredSharedNodes.isEmpty()){
-            String intersectionNode = (String) exploredSharedNodes.toArray()[exploredSharedNodes.size()-1];
+        Set<String> exploredInCommonNodes = explored.keySet();
+        exploredInCommonNodes.retainAll(reverseExplored.keySet());
+        if(!exploredInCommonNodes.isEmpty()){
+            String intersectionNode = (String) exploredInCommonNodes.toArray()[exploredInCommonNodes.size()-1];
             State nodeFromFront = findIntersectedNode(intersectionNode, exploredList);
             State nodeFromReverse = findIntersectedNode(intersectionNode, reverseExploredList);
             ResultUtil.reverseResult(nodeFromFront, nodeFromReverse, AlgorithmType.BDS);
