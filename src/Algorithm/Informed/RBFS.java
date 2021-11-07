@@ -77,15 +77,15 @@ public class RBFS extends BasicAlgorithm implements SimpleSearch {
             if(ResultUtil.isGoal(best)){
                 ResultUtil.result(best, AlgorithmType.RBFS);
                 ResultUtil.nodeExpansionResultgenerator(this);
-                System.exit(0);
+                System.exit(0);// stop recursion
             }
 
             if(best.getFLimit() > fLimit)
                 return best.getFLimit();
 
-            int alternative = successors.size() > 0 ?  successors.peek().getFLimit() : fLimit;
+            int alt = successors.size() > 0 ?  successors.peek().getFLimit() : fLimit;
 
-            best.setFLimit(rbfs(best, Math.min(fLimit, alternative)));
+            best.setFLimit(rbfs(best, Math.min(fLimit, alt)));
 
             successors.add(best);
         }

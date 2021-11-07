@@ -131,8 +131,8 @@ public class Main {
 
         // Test IDS
         // testet
-        // search = new IDS(30);
-        // search.search(initialState, 30);
+        // search = new IDS(5);
+        // search.search(initialState);
 
         // Test UCS
         // tested

@@ -63,11 +63,13 @@ public class DLS extends BasicAlgorithm implements LimitedSearch {
             explored.put(temp.hash(),true);
 
             if(depth >= limit){
-                continue;
+                return false;
             }
 
             ArrayList<State> children = temp.successor();
+
             numberOfExpandedNodes++;
+
             for (State state : children) {
                 if(!(inFrontier.containsKey(state.hash())) && !(explored.containsKey(state.hash()))) {
                     if (ResultUtil.isGoal(state)) {
